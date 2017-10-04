@@ -11,6 +11,6 @@ class Namespace(BaseNamespace):
 
 socketIO = SocketIO('http://localhost', 3001, Namespace)
 while True:
-    sleep(5)
+    sleep(2)
     socketIO.emit('message',{ 'label': fake.name(), 'value': random.uniform(20,50) })
 socketIO.wait()
