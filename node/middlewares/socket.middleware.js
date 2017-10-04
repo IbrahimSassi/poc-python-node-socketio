@@ -12,6 +12,7 @@ export default io => {
 
     socket.on('message', message => {
       console.log("message", message);
+      io.sockets.emit('messageToVue',message);
     });
 
   });

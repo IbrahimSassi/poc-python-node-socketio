@@ -69,7 +69,7 @@ module.exports =
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function(__dirname) {
 
 var _express = __webpack_require__(1);
 
@@ -91,11 +91,16 @@ var _http = __webpack_require__(7);
 
 var _http2 = _interopRequireDefault(_http);
 
+var _path = __webpack_require__(8);
+
+var _path2 = _interopRequireDefault(_path);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const app = (0, _express2.default)();
 // import db from './config/database';
-
+const app = (0, _express2.default)();
+app.set('views', _path2.default.join(__dirname, 'views'));
+app.set('view engine', 'html');
 
 (0, _middlewares2.default)(app);
 
@@ -108,12 +113,15 @@ let server = _http2.default.createServer(app).listen(_constants2.default.PORT, f
   }
 });
 
-const io = __webpack_require__(8).listen(3001);
+const io = __webpack_require__(9).listen(3001);
 (0, _socket2.default)(io);
 
 app.get('/', (req, res) => {
+
+  // res.sendFile("/dist/index.html", {"root": __dirname});
   res.json({ msg: "Hello World" });
 });
+/* WEBPACK VAR INJECTION */}.call(exports, "/"))
 
 /***/ }),
 /* 1 */
@@ -144,7 +152,7 @@ const prodConfig = {
 };
 
 const defaultConfig = {
-  PORT: process.env.PORT || 3000
+  PORT: process.env.PORT || 4000
 };
 
 function envConfig(env) {
@@ -230,6 +238,7 @@ exports.default = io => {
 
     socket.on('message', message => {
       console.log("message", message);
+      io.sockets.emit('messageToVue', message);
     });
   });
 
@@ -246,6 +255,12 @@ module.exports = require("http");
 
 /***/ }),
 /* 8 */
+/***/ (function(module, exports) {
+
+module.exports = require("path");
+
+/***/ }),
+/* 9 */
 /***/ (function(module, exports) {
 
 module.exports = require("socket.io");

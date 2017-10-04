@@ -5,13 +5,14 @@ import constants from './config/constants';
 import middlewaresConfig from './config/middlewares';
 import socketMiddleware from './middlewares/socket.middleware';
 import http from 'http';
+import path from 'path';
 
 
 const app = express();
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'html');
 
 middlewaresConfig(app);
-
-
 
 
 // FOR HTTPS
@@ -30,6 +31,8 @@ socketMiddleware(io);
 
 
 app.get('/', (req, res) => {
+
+  // res.sendFile("/dist/index.html", {"root": __dirname});
   res.json({msg: "Hello World"})
 })
 
